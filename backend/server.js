@@ -13,7 +13,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", require("./routes/authRoutes"));
-app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/user", require("./routes/userRoutes"));
+app.use("/api/chat", require("./routes/chatRoute"));
 
 app.use(errorHandler);
 const port = process.env.PORT;

@@ -38,7 +38,7 @@ const signup = asyncHandler(async (req, res) => {
     const generateToken = jwt.sign(
       { id: user._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "15d" }
     );
     res.status(201).json({
       _id: user._id,
@@ -80,7 +80,7 @@ const login = asyncHandler(async (req, res) => {
     const accessToken = jwt.sign(
       { id: user._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "15d" }
     );
     res.status(200).json({
       _id: user._id,
