@@ -9,4 +9,5 @@ const router = express.Router();
 
 router.post("/", [verifyToken], postOneToOneChat);
 router.get("/", [verifyToken], fetchChats);
+router.post("/group", [verifyToken], createGroupChat);
 module.exports = router;

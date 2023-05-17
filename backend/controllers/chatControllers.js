@@ -76,13 +76,56 @@ const fetchChats = asyncHandler(async (req, res) => {
   }
 });
 
-
 // @desc to create a group chat
 // @route POST api/chat/group
 // @access private
 
+const createGroupChat = asyncHandler(async (req, res) => {
+  const { name, users } = req.body;
 
+  // validating the name
+  if (!name) {
+    res.status(400);
+    throw new Error("name is not provided");
+  }
 
+  /**
+   * validations of user
+   * more than two users
+   * users present or not in db
+   * parse the users bcz fronted UI
+   */
+  // var users = JSON.parse(usersArr);
 
+  if (!users) {
+    res.status(400);
+    throw new Error("users not provided");
+  }
 
-module.exports = { postOneToOneChat, fetchChats };
+  var usersArr = JSON.parse(users);
+
+  if (usersArr.length < 2) {
+    res.status(400);
+    throw new Error("More than 2 users are required to form a group chat");
+  }
+  const user = req.user._id;
+  usersArr.push(user);
+  try {
+    const groupChat = await Chat.create({
+      chatName: name,
+      users: usersArr,
+      isGroupChat: true,
+      groupAdmin: req.user,
+    });
+
+    const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password");
+    res.status(201).json(fullGroupChat);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+module.exports = { postOneToOneChat, fetchChats, createGroupChat };
