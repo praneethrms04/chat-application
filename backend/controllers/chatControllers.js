@@ -2,6 +2,10 @@ const asyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
 
+// @desc post a chat
+// @route POST api/chat
+// @access private
+
 const postOneToOneChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
@@ -48,4 +52,37 @@ const postOneToOneChat = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { postOneToOneChat };
+// @desc to get a chat
+// @route GET api/chat
+// @access private
+
+const fetchChats = asyncHandler(async (req, res) => {
+  try {
+    Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password")
+      .populate("latestMessage")
+      .sort({ updatedAt: -1 })
+      .then(async (results) => {
+        results = await User.populate(results, {
+          path: "latestMessage.sender",
+          select: "name picture email",
+        });
+        res.status(200).send(results);
+      });
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+
+// @desc to create a group chat
+// @route POST api/chat/group
+// @access private
+
+
+
+
+
+module.exports = { postOneToOneChat, fetchChats };
