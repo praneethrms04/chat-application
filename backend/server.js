@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", require("./routes/authRoutes"));
 app.use("/api/user", require("./routes/userRoutes"));
 app.use("/api/chat", require("./routes/chatRoute"));
+app.use("/api/message", require("./routes/messageRoutes"))
 
 app.use(errorHandler);
 const port = process.env.PORT;
