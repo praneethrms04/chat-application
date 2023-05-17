@@ -95,7 +95,6 @@ const createGroupChat = asyncHandler(async (req, res) => {
    * users present or not in db
    * parse the users bcz fronted UI
    */
-  // var users = JSON.parse(usersArr);
 
   if (!users) {
     res.status(400);
@@ -128,4 +127,36 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { postOneToOneChat, fetchChats, createGroupChat };
+// @desc update the name of ChatName or rename the group
+// @route POST api/chat/group/rename
+// @access private
+
+const renameGroupChat = asyncHandler(async (req, res) => {
+  const { chatId, chatName } = req.body;
+
+  const updatedChat = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      chatName: chatName,
+    },
+    {
+      new: true,
+    }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!updatedChat) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json(updatedChat);
+  }
+});
+
+module.exports = {
+  postOneToOneChat,
+  fetchChats,
+  createGroupChat,
+  renameGroupChat,
+};
