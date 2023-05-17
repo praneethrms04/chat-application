@@ -154,9 +154,56 @@ const renameGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc remove the user from the group
+// @route POST api/chat/group/remove
+// @access private
+
+const removeUserFromGroupChat = asyncHandler(async (req, res) => {
+  const { chatId, userId } = req.body;
+  const removeUser = await Chat.findByIdAndUpdate(
+    chatId,
+    { $pull: { users: userId } },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!removeUser) {
+    res.status(400);
+    throw new Error("Chat is not found");
+  } else {
+    res.json(removeUser);
+  }
+});
+
+// @desc add the user to the group
+// @route POST api/chat/group/add
+// @access private
+
+const addUserToGroup = asyncHandler(async (req, res) => {
+  const { chatId, userId } = req.body;
+
+  const addUser = await Chat.findByIdAndUpdate(
+    chatId,
+    { $push: { users: userId } },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!addUser) {
+    res.status(400);
+    throw new Error("Chat is not found");
+  } else {
+    res.json(addUser);
+  }
+});
+
 module.exports = {
   postOneToOneChat,
   fetchChats,
   createGroupChat,
   renameGroupChat,
+  removeUserFromGroupChat,
+  addUserToGroup,
 };
