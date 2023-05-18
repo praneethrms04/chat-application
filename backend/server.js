@@ -2,11 +2,13 @@ const express = require("express");
 const { errorHandler } = require("./middleware/errorHandler");
 const connectDB = require("./config/dbConnection");
 const dotenv = require("dotenv");
+const cors = require("cors")
 
 dotenv.config();
 connectDB();
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 app.get("/", (req, res) => {
   res.status(200).send({ message: "I am home route" });
