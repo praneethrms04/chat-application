@@ -1,21 +1,23 @@
+import React from "react";
+import { ToastContainer } from "react-toastify";
 
-import React from 'react'
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
-import HomePage from "./pages/HomePage"
-import ChatPage from "./pages/ChatPage"
-import "./App.css"
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ChatPage from "./pages/ChatPage";
+import "./App.css";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/chat" element={<ChatPage />} />
-      </Routes>
-    </Router>
-  
-  )
-}
+    <div>
+      <ToastContainer />
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/chat" element={<ChatPage />} />
+        </Routes>
+      </Router>
+    </div>
+  );
+};
 
-export default App
+export default App;
