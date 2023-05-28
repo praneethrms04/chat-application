@@ -8,6 +8,13 @@
   pointer-events: none;
 }
 
+.chat-box {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+  /* height: auto; */
+  /* width: auto; */
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

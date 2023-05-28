@@ -5,7 +5,7 @@ import close from "../../assets/close.svg";
 import "./login.css";
 
 const Login = (props) => {
-  const { gotoSignup, onSubmitHandler } = props;
+  const { gotoSignup, onSubmitHandler, loading } = props;
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +44,7 @@ const Login = (props) => {
                 onClick={() => setShow(!show)}
               />
             </div>
-            <input type="submit" className="submit" value="Login" />
+            <input type="submit" className="submit" value={loading ? "loading..." : "login"} />
           </div>
           <p className="account">
             You don't have an account

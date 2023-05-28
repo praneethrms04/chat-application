@@ -82,10 +82,12 @@ const login = asyncHandler(async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15d" }
     );
+
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      picture: user.picture,
       token: accessToken,
     });
   } else {

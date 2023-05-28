@@ -1,8 +1,11 @@
+import { spinner } from "../../assets";
 
 const Loader = () => {
   return (
-    <div>Loader</div>
-  )
-}
+    <div>
+      <img src={spinner} alt="spinner" />
+    </div>
+  );
+};
 
-export default Loader
+export default Loader;

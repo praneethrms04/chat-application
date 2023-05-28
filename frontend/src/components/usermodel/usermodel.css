@@ -1,0 +1,43 @@
+.profile-model {
+  top: 20%;
+  left: 38%;
+  position: fixed;
+  border: 1px solid #fff;
+  width: 300px;
+  height: 300px;
+  color: #000;
+  border-radius: 5px;
+  background-color: #fff;
+}
+.profile-close {
+  width: 30px;
+  margin-left: 260px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.profile-model div {
+  text-align: center;
+}
+.profile-model div img {
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: 170px;
+  height: 160px;
+}
+.profile-model div p {
+  text-align: center;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.profile-model div h2 {
+  border: 1px solid #116d6e;
+  background: #116d6e;
+  height: 35px;
+  text-align: center;
+  justify-content: center;
+  padding-top: 10px;
+  color: #fff;
+  font-size: 20px;
+  font-family: "Courier New", Courier, monospace;
+}

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-
 import { useNavigate } from "react-router-dom";
-import Login from "../components/login/Login.jsx";
-import Signup from "../components/signup/Signup.jsx";
 import { userLogin, userSignup } from "../api/auth.js";
 
+import Login from "../components/login/Login.jsx";
+import Signup from "../components/signup/Signup.jsx";
+
 const HomePage = () => {
-  const navigate = useNavigate();
   const [showSignup, setShowSignup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const gotoLogin = () => {
     setShowSignup(false);
@@ -42,19 +43,25 @@ const HomePage = () => {
   /// --- Login --- ///
 
   const loginSubmitHandler = (data) => {
+    setLoading(true);
     userLogin(data)
       .then((res) => {
         const { data, status } = res;
         if (status === 200) {
+          setLoading(false);
           toast.success("Login success...!", {
+            autoClose: 3000,
             position: toast.POSITION.TOP_CENTER,
-          });
+  
 
-          localStorage.setItem("name", data.name);
-          localStorage.setItem("email", data.email);
-          localStorage.setItem("token", data.token);
+          });
+          localStorage.setItem("userInfo", JSON.stringify(data));
+          // localStorage.setItem("name", data.name);
+        
         }
-        navigate("/chats");
+        setTimeout(() => {
+          navigate("/chat");
+        }, 2000);
       })
       .catch((error) =>
         toast.error(error.response.data.message, {
@@ -63,12 +70,25 @@ const HomePage = () => {
       );
   };
 
+  /// ---  if the user is login push to chatpage --- ///
+
+  // useEffect(()=>{
+  //   const userInfo =  JSON.parse(localStorage.getItem("userInfo"))
+  //   if(userInfo){
+  //     navigate("/chat")
+  //   }
+  // },[navigate])
+
   return (
     <>
       {showSignup ? (
-        <Signup gotoLogin={gotoLogin} onSignupSubmit={signupSubmitHandler} />
+        <Signup gotoLogin={gotoLogin} onSignupSubmit={signupSubmitHandler} loading={loading} />
       ) : (
-        <Login gotoSignup={gotoSignup} onSubmitHandler={loginSubmitHandler} />
+        <Login
+          gotoSignup={gotoSignup}
+          onSubmitHandler={loginSubmitHandler}
+          loading={loading}
+        />
       )}
     </>
   );

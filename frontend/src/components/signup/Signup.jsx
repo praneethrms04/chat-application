@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import open from "../../assets/open.svg";
-import close from "../../assets/close.svg";
+
 import "./signup.css";
+import { close, open } from "../../assets";
 
 const Signup = (props) => {
-  const { gotoLogin, onSignupSubmit} = props;
-  
+  const { gotoLogin, onSignupSubmit } = props;
+
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -106,14 +106,18 @@ const Signup = (props) => {
               Select picture
               <input
                 type="file"
-                // required
+                required
                 accept="image/*"
                 className="file"
                 onChange={(e) => postDetails(e.target.files[0])}
               />
             </label>
 
-            <button type="submit" className="submit">
+            <button
+              type="submit"
+              className="submit"
+              
+            >
               {picLoading ? "Loading...." : "Register"}
             </button>
           </div>
@@ -123,7 +127,6 @@ const Signup = (props) => {
               Login
             </span>
           </p>
-        
         </form>
       </div>
     </div>
