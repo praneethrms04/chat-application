@@ -4,11 +4,17 @@ import { ChatState } from "../../context/ChatProvider";
 import { notification } from "../../assets";
 import UserModel from "../usermodel/UserModel";
 import "./navbar.css";
+import SearchUserModel from "../searchusermodel/SearchUserModel";
+import { fetchUser } from "../../api/user";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const { user } = ChatState();
-  console.log(user);
+  const { user, setLoading } = ChatState();
+  // console.log(user);
   const [showModel, setShowModel] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+  const [showSearchUserModel, setShowSearchUserModel] = useState(false);
+
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -16,11 +22,32 @@ const Navbar = () => {
     navigate("/");
   };
 
+  const searchHandler = (search) => {
+    if(!search){
+      toast.warning("Please Enter name...!", {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+    setLoading(true);
+    fetchUser(search)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200) {
+          setLoading(false);
+          setSearchResult(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <div className="horz-navbar">
         <div className="search-bar">
-          <input type="text" name="" id="" onClick={() => setShowModel(true)} />
+          {/* <SearchUserModel /> */}
+          <input type="text" name="" id="" />{" "}
+          <button onClick={() => setShowSearchUserModel(true)}>Search</button>
         </div>
         <div className="title">Whatsapp</div>
         <div className="profile">
@@ -35,6 +62,13 @@ const Navbar = () => {
         </div>
       </div>
       {showModel && <UserModel setShowModel={setShowModel} />}
+      {showSearchUserModel && (
+        <SearchUserModel
+          setShowSearchUserModel={setShowSearchUserModel}
+          searchHandler={searchHandler}
+          searchResult={searchResult}
+        />
+      )}
     </>
   );
 };

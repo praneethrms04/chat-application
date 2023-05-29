@@ -4,7 +4,6 @@
     border: 1px solid #075e54;
     /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     overflow: hidden;
-    /* border-right: #fff; */
     border-bottom: #fff;
   }
   
@@ -20,7 +19,7 @@
   /* Sidebar Users */
   .sidebar-users {
     padding: 10px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 
     /* background-color: #f2f2f2; */
   }

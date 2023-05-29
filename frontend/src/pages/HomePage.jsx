@@ -52,8 +52,6 @@ const HomePage = () => {
           toast.success("Login success...!", {
             autoClose: 3000,
             position: toast.POSITION.TOP_CENTER,
-  
-
           });
           localStorage.setItem("userInfo", JSON.stringify(data));
           // localStorage.setItem("name", data.name);
